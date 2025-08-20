@@ -11,10 +11,10 @@ class ProcessInput(BaseModel):
 def process_text(input: ProcessInput):
     text = input.text
     
-    # 1️⃣ Text in Schritte splitten (bei Komma oder Pfeil)
+    # 1️ Text in Schritte splitten (bei Komma oder Pfeil)
     steps = [s.strip() for s in re.split(r',|→', text)]
     
-    # 2️⃣ Rollen automatisch extrahieren (sehr simpel: erstes Wort in jedem Schritt)
+    # 2️ Rollen automatisch extrahieren (sehr simpel: erstes Wort in jedem Schritt)
     roles = []
     for step in steps:
         match = re.match(r'(\w+)', step)
@@ -23,7 +23,7 @@ def process_text(input: ProcessInput):
             if role not in roles:
                 roles.append(role)
     
-    # 3️⃣ Entscheidungen/Gateways erkennen (Platzhalter)
+    # 3️ Entscheidungen/Gateways erkennen (Platzhalter)
     decisions = []
     for step in steps:
         # Wenn das Wort "wenn" oder "falls" vorkommt, nehmen wir es als Entscheidung

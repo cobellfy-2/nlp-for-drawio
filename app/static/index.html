@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Prozess zu XML</title>
+  <style>
+    #spinner { display: none; }
+    pre { background: #f0f0f0; padding: 10px; }
+  </style>
+</head>
+<body>
+  <h1>Prozess-Analyse</h1>
+  <textarea id="inputText" rows="5" cols="60"></textarea><br><br>
+  <button onclick="processText()">Senden</button>
+  <div id="spinner">⏳ Processing...</div>
+  <h2>Ergebnis</h2>
+  <pre id="output"></pre>
+
+<script>
+async function processText() {
+    const text = document.getElementById("inputText").value;
+    const spinner = document.getElementById("spinner");
+    const output = document.getElementById("output");
+
+    spinner.style.display = "block";
+    output.textContent = "";
+
+    try {
+        const resp = await fetch("http://127.0.0.1:8000/process", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ text })
+        });
+
+        const data = await resp.json();
+        spinner.style.display = "none";
+
+        // JSON pretty print
+        output.textContent = JSON.stringify(data, null, 2);
+
+    } catch (err) {
+        spinner.style.display = "none";
+        output.textContent = "Fehler: " + err;
+    }
+}
+</script>
+</body>
+</html>
