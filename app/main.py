@@ -10,6 +10,7 @@ app.mount("/", StaticFiles(directory="app/static", html=True), name="static")
 
 
 
+
 # Für CORS, damit JS vom Browser an API darf
 app.add_middleware(
     CORSMiddleware,
@@ -29,11 +30,12 @@ def process_text(input: ProcessInput):
     prompt = f"""
     Analysiere diesen Prozess in Alltagssprache:
     \"\"\"{input.text}\"\"\"
-    Gib eine JSON-Struktur zurück mit:
+    Gib als Antwort eine draw.io kompatible XML-Struktur zurück mit:
     {{
       "roles": ["Liste der Rollen, z.B. Kunde, Lager, Versand"],
       "steps": ["Liste der Tasks/Schritte"],
       "decisions": ["Liste der Entscheidungen/Gateways"]
+      
     }}
     """
 
